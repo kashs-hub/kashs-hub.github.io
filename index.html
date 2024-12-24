@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bio Page</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #4e54c8, #8f94fb);
+            color: #343a40;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            padding: 30px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 26px;
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            font-family: 'Roboto', sans-serif;
+            font-size: 20px;
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: transparent; 
+            margin-left: 5px; 
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="https://files.catbox.moe/g6p0hx.jpg" alt="Profile Picture" class="profile-img">
+    <h1>Kash<span class="status-dot" id="status-dot">●</span></h1>
+    <h2>Developer</h2>
+    <p>Hello! I'm Kash, a passionate bot developer.</p>
+</div>
+
+<script>
+    fetch('https://api.lanyard.rest/v1/users/1249945526531784735')
+        .then(response => response.json())
+        .then(data => {
+            const status = data.data.discord_status;
+            const statusDot = document.getElementById('status-dot');
+
+            if (status === 'dnd') {
+                statusDot.style.color = 'red';
+                return;
+             } else if (status === 'online') {
+                statusDot.style.color = 'green';
+             } else if (status === 'idle') {
+                statusDot.style.color = 'yellow';
+             } else {
+                statusDot.style.color = 'grey';
+             }
+         })
+         .catch(error => console.error('Error fetching Discord status:', error));
+</script>
+
+</body>
+</html>
